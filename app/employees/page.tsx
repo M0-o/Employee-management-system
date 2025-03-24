@@ -4,8 +4,9 @@ export default async function Employees() {
   const supabase = await createClient();
   const { data: employees } = await supabase
     .from("employees")
-    .select("first_name, last_name")
-    .limit(10);
+    .select("*");
 
+    console.log(employees);
+    
   return <pre>{JSON.stringify(employees, null, 2)}</pre>;
 }
