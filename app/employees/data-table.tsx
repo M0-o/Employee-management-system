@@ -34,11 +34,41 @@ import {
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  defaultVisibility?: VisibilityState
 }
 
 export default function DataTable<TData, TValue>({
   columns,
   data,
+  defaultVisibility = {
+    emp_id : true ,
+    first_name : true ,
+    last_name : true ,
+    start_date : false ,
+    exit_date : false ,
+    supervisor : false ,
+    email : true ,
+    business_unit : true ,
+    employee_status : true ,
+    employee_type : true ,
+    payzone : true ,
+    employee_classification : true ,
+    termination_type : false ,
+    termination_description : false,
+    department_type : true ,
+    division : true ,
+    birthdate : false ,
+    state : true ,
+    job_function_desc : true ,
+    gender_code : false ,
+    location_code : false ,
+    race : false ,
+    marital_status : false ,
+    performance_score : true ,
+    current_employee_rating : true ,
+    job_title_id : true ,
+
+  },
 }: DataTableProps<TData, TValue>) {
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -62,6 +92,11 @@ export default function DataTable<TData, TValue>({
       columnVisibility,
     },
   })
+  React.useEffect(() => {
+    if (Object.keys(defaultVisibility).length > 0) {
+      table.setColumnVisibility(defaultVisibility)
+    }
+  }, [])
 
   return (
     <div>
@@ -103,7 +138,7 @@ export default function DataTable<TData, TValue>({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-    <div className="rounded-md border">
+    <div className="rounded-md border ">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
