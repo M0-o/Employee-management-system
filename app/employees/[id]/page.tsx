@@ -22,13 +22,15 @@ function displayValue(value: any): string {
   if (value === null || value === undefined) return "N/A"
   return String(value)
 }
-
+type ParamsWithId = Promise<any> & {
+  id: string
+}
 export default async function EmployeeDetailsPage({
   params,
 }: {
-  params: { params: Promise<any>}
+  params: ParamsWithId
 }) {
-  const { id } = await params;
+  const id = (await params).id ;
   const supabase = await createClient();
   const { data , error } = await supabase.from("employees").select("*").eq("emp_id", id);
 
