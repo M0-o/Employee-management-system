@@ -1,7 +1,7 @@
 import React from 'react';
 import { createClient } from "@/utils/supabase/server";
 
-export default async function EmployeePage({ params }: { params: { id: string } }) {
+export default async function EmployeePage({ params }: { params: Promise<any>}  ) {
   const { id } = await params;
   const supabase = await createClient();
 const { data, error } = await supabase.from("employees").select("*").eq("emp_id", id);
