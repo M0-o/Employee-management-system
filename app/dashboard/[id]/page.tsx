@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { CalendarIcon, MailIcon, MapPinIcon, BuildingIcon, UserIcon, BriefcaseIcon, StarIcon } from "lucide-react"
-import type {Employee} from "@/app/employees/columns"
+import type {Employee} from "@/app/dashboard/columns"
 
 function formatDate(dateString: string | null): string {
   if (!dateString) return "N/A"

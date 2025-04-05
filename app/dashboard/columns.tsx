@@ -53,7 +53,7 @@ export const columns: ColumnDef<Employee>[] = [
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
               >
                 Employee ID
-                <ArrowUpDown className="ml-2 h-4 w-4" />
+                <ArrowUpDown className="ml-2 h-4 w-1" />
               </Button>
             )
           },
