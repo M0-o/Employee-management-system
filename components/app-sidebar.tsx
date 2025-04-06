@@ -25,12 +25,14 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
+import {createClient} from "@/utils/supabase/client"
+
 
 // This is sample data.
 const data = {
   user: {
     name: "shadcn",
-    email: "m@example.com",
+    email: "idk",
     avatar: "/avatars/shadcn.jpg",
   },
   teams: [
@@ -156,7 +158,25 @@ const data = {
   ],
 }
 
+const SupabaseAuthClient = createClient()
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+const [user, setUser] = React.useState(null)
+React.useEffect(() => {
+  const fetchUser = async () => {
+    const user = await SupabaseAuthClient.auth.getUser()
+    return user ;
+  }
+  
+  fetchUser()
+    .then((user) => {
+      setUser(user)
+    })
+    .catch((error) => {
+      console.error("Error fetching user:", error)
+    })
+
+}, [])
+if(user)console.log(user.data.user.user_metadata.email)
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>

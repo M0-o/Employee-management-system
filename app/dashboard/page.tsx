@@ -1,21 +1,7 @@
-import { createClient } from "@/utils/supabase/server";
-import { Employee, columns } from "./columns"
-import  DataTable  from "./data-table"
-import { HireChart } from "./hire-chart";
 
-async function fetchData(): Promise<Employee[]> {
-  const supabase = await createClient();
-  const { data, error } = await supabase.from("employees").select("*");
-  if (error) {
-    console.error("error", error);
- 
-};
-return data as Employee[];
-};
-
-
-
+import HireChart from "@/app/dashboard/hire-chart"
 import { AppSidebar } from "@/components/app-sidebar"
+import  PerformanceMetrics  from "@/app/dashboard/performance_metrics"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -30,13 +16,31 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
+import { createClient } from "@/utils/supabase/server";
+
 
 export default async function Page() {
-  const employees = await fetchData();
-  if (!employees) {
-    return <div>Loading...</div>
+  const supabase = await createClient();
+  const performanceDataResponse = await supabase.rpc("performance_score_percentage")
+  if (performanceDataResponse.error) {
+    console.error("Error fetching performance data:", performanceDataResponse.error)
+  }
+  const performanceData = performanceDataResponse.data
+  const departmentPerformance = [
+    { department: "HR", average: 3.5 },
+    { department: "IT", average: 4.0 },
+    { department: "Finance", average: 3.8 },
+    { department: "Marketing", average: 4.2 },
+  ]
+  
+  const averageRatingResponse = await supabase.rpc("employee_rating_average") 
+  if (averageRatingResponse.error) {
+    console.error("Error fetching average rating:", averageRatingResponse.error)
   }
 
+  const averageRating = averageRatingResponse.data
+
+  
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -63,14 +67,15 @@ export default async function Page() {
         
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
           <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-            <div className="aspect-video rounded-xl bg-muted/50" />
+            <div className="aspect-video rounded-xl bg-muted/50" >
+              <PerformanceMetrics performanceData={performanceData} departmentPerformance={departmentPerformance} averageRating={averageRating}/>
+            </div>
             <div className="aspect-video rounded-xl bg-muted/50" />
             <div className="aspect-video rounded-xl bg-muted/50" />
           </div>
           <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" > 
             <div className="container mx-auto py-10">
-             <DataTable<Employee, any> columns={columns} data={employees}/>
-
+            
 
             <HireChart/>
              </div>
