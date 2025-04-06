@@ -26,12 +26,11 @@ export default async function Page() {
     console.error("Error fetching performance data:", performanceDataResponse.error)
   }
   const performanceData = performanceDataResponse.data
-  const departmentPerformance = [
-    { department: "HR", average: 3.5 },
-    { department: "IT", average: 4.0 },
-    { department: "Finance", average: 3.8 },
-    { department: "Marketing", average: 4.2 },
-  ]
+  const departmentPerformanceResponse = await supabase.rpc("performance_rating_average_by_param",{param:"department_type"})
+  const departmentPerformance = departmentPerformanceResponse.data
+  if (departmentPerformanceResponse.error) {
+    console.error("Error fetching department performance:", departmentPerformanceResponse.error)
+  }
   
   const averageRatingResponse = await supabase.rpc("employee_rating_average") 
   if (averageRatingResponse.error) {
@@ -67,9 +66,11 @@ export default async function Page() {
         
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
           <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-            <div className="aspect-video rounded-xl bg-muted/50" >
-              <PerformanceMetrics performanceData={performanceData} departmentPerformance={departmentPerformance} averageRating={averageRating}/>
+            <div className="col-span-2">
+
+              <PerformanceMetrics  performanceData={performanceData} departmentPerformance={departmentPerformance} averageRating={averageRating}/>
             </div>
+            
             <div className="aspect-video rounded-xl bg-muted/50" />
             <div className="aspect-video rounded-xl bg-muted/50" />
           </div>

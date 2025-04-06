@@ -65,11 +65,11 @@ export default function HireChart() {
   })
 
   return (
-    <Card>
+    <Card >
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
-          <CardTitle>Area Chart - Interactive</CardTitle>
-          <CardDescription>Showing hires vs terminations over time</CardDescription>
+          <CardTitle>Hiring and layoff trends</CardTitle>
+          <CardDescription>Showing hires vs layoffs over time</CardDescription>
         </div>
         <Select value={timeRange} onValueChange={setTimeRange}>
           <SelectTrigger className="w-[160px] rounded-lg sm:ml-auto" aria-label="Select a value">

@@ -14,8 +14,8 @@ interface PerformanceData {
 }
 
 interface DepartmentPerformance {
-  department: string
-  average: number
+  group_: string
+  average_rating: number
 }
 
 
@@ -45,7 +45,7 @@ export default function PerformanceMetrics({
     <Card className={cn("col-span-full lg:col-span-2", className)}>
       <CardHeader>
         <CardTitle>Performance Metrics</CardTitle>
-        <CardDescription>Employee performance ratings and skill assessments</CardDescription>
+        <CardDescription>Employee performance ratings </CardDescription>
       </CardHeader>
       <CardContent>
         <Tabs defaultValue="overview" className="space-y-4">
@@ -101,12 +101,12 @@ export default function PerformanceMetrics({
           </TabsContent>
           <TabsContent value="departments">
             <div className="space-y-4">
-              <div className="h-[250px]">
+              <div className=" w-full overflow-hidden">
                 <ChartContainer config={chartConfig}>
-                  <ResponsiveContainer width="100%" height="100%">
+                  <ResponsiveContainer  width="100%" height="100%">
                     <BarChart data={departmentPerformance}>
                       <XAxis
-                        dataKey="department"
+                        dataKey="group_"
                         tickLine={false}
                         axisLine={false}
                         fontSize={12}
@@ -114,7 +114,7 @@ export default function PerformanceMetrics({
                       />
                       <YAxis tickLine={false} axisLine={false} fontSize={12} tickCount={6} domain={[0, 5]} />
                       <ChartTooltip content={<ChartTooltipContent />} />
-                      <Bar dataKey="average" fill="hsl(var(--chart-1))" radius={[4, 4, 0, 0]} />
+                      <Bar dataKey="average_rating" fill="hsl(var(--chart-1))" radius={[4, 4, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </ChartContainer>
@@ -124,12 +124,12 @@ export default function PerformanceMetrics({
                 <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                   {departmentPerformance.map((dept) => (
                     <div
-                      key={dept.department}
+                      key={dept.group_}
                       className="flex items-center justify-between space-x-2 rounded-md border p-3 transition-colors hover:bg-muted/50"
                     >
-                      <span className="text-sm font-medium">{dept.department}</span>
+                      <span className="text-sm font-medium">{dept.group_}</span>
                       <div className="flex items-center">
-                        <span className="text-sm font-medium">{dept.average.toFixed(1)}</span>
+                        <span className="text-sm font-medium">{dept.average_rating.toFixed(2)}</span>
                         <span className="ml-1 text-xs text-muted-foreground">/5.0</span>
                       </div>
                     </div>
