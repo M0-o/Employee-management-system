@@ -13,7 +13,7 @@ import {
   Settings2,
   SquareTerminal,
 } from "lucide-react"
-
+import { UserResponse } from "@supabase/supabase-js"
 import { NavMain } from "@/components/nav-main"
 import { NavProjects } from "@/components/nav-projects"
 import { NavUser } from "@/components/nav-user"
@@ -160,7 +160,7 @@ const data = {
 
 const SupabaseAuthClient = createClient()
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-const [user, setUser] = React.useState(null)
+const [user, setUser] = React.useState<UserResponse | null>(null)
 React.useEffect(() => {
   const fetchUser = async () => {
     const user = await SupabaseAuthClient.auth.getUser()
@@ -176,7 +176,7 @@ React.useEffect(() => {
     })
 
 }, [])
-if(user)console.log(user.data.user.user_metadata.email)
+if(user && user.data.user )console.log(user.data.user.user_metadata.email)
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
