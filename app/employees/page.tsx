@@ -1,16 +1,30 @@
 
-import { Employee, columns } from "@/app/employees/columns"
+import { T_Employee, columns } from "@/app/employees/columns"
 import  DataTable  from "@/app/employees/data-table"
 import { createClient } from "@/utils/supabase/server";
 
-async function fetchData(): Promise<Employee[]> {
+async function getNumberOfEmployees():Promise<number>{
+  const supabase = await createClient();
+  
+  let { data, error } = await supabase
+  .rpc('number_of_employees')
+  if (error) console.error(error)
+  
+
+  
+  return data ;
+
+}
+async function fetchData(): Promise<T_Employee[]> {
+  const num :number = await getNumberOfEmployees();
     const supabase = await createClient();
-    const { data, error } = await supabase.from("employees").select("*");
+   
+    const { data, error } = await supabase.from("employees").select("*").range(0,num);
     if (error) {
       console.error("error", error);
    
   };
-  return data as Employee[];
+  return data as T_Employee[];
   };
 
   export default async function Page() {
@@ -18,9 +32,10 @@ async function fetchData(): Promise<Employee[]> {
   if (!employees) {
     return <div>Loading...</div>
   }
+  
 return (
 <div className="container mx-auto py-10">
-    <DataTable<Employee, any> columns={columns} data={employees}/>
+    <DataTable<T_Employee, any> columns={columns} data={employees}/>
     </div>
 )
 

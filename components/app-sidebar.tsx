@@ -176,7 +176,10 @@ React.useEffect(() => {
     })
 
 }, [])
-if(user && user.data.user )console.log(user.data.user.user_metadata.email)
+  if (!user) {
+    return <div>Loading...</div>
+  }
+  console.log(user.data.user)
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -187,7 +190,7 @@ if(user && user.data.user )console.log(user.data.user.user_metadata.email)
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={ user.data.user ?? data.user } />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

@@ -1,36 +1,18 @@
-
-import HireChart from "@/app/dashboard/hire-chart"
-import { AppSidebar } from "@/components/app-sidebar"
-import  PerformanceMetrics  from "@/app/dashboard/performance_metrics"
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
-import { Separator } from "@/components/ui/separator"
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar"
-import { createClient } from "@/utils/supabase/server";
-
+import { QUERIES } from "@/Data/queries";
+import * as Dashboard from "./imports";
 
 export default async function Page() {
-  const supabase = await createClient();
+
+  const supabase = await Dashboard.createClient();
   const performanceDataResponse = await supabase.rpc("performance_score_percentage")
   if (performanceDataResponse.error) {
     console.error("Error fetching performance data:", performanceDataResponse.error)
   }
   const performanceData = performanceDataResponse.data
-  const departmentPerformanceResponse = await supabase.rpc("performance_rating_average_by_param",{param:"department_type"})
-  const departmentPerformance = departmentPerformanceResponse.data
-  if (departmentPerformanceResponse.error) {
-    console.error("Error fetching department performance:", departmentPerformanceResponse.error)
-  }
+  
+  
+  const departmentPerformance = await QUERIES.getPerformanceRatingByDepartment()
+ 
   
   const averageRatingResponse = await supabase.rpc("employee_rating_average") 
   if (averageRatingResponse.error) {
@@ -39,28 +21,32 @@ export default async function Page() {
 
   const averageRating = averageRatingResponse.data
 
+// finish extracting all the queries , and add a promise.all where usable . text wife
+
   
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <SidebarInset>
+    <Dashboard.SidebarProvider>
+     
+      <Dashboard.AppSidebar />
+      <Dashboard.SidebarInset>
         <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
           <div className="flex items-center gap-2 px-4">
-            <SidebarTrigger className="-ml-1" />
-            <Separator orientation="vertical" className="mr-2 h-4" />
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="#">
+            <Dashboard.SidebarTrigger className="-ml-1" />
+            <Dashboard.Separator orientation="vertical" className="mr-2 h-4" />
+            <Dashboard.Breadcrumb>
+              <Dashboard.BreadcrumbList>
+                <Dashboard.BreadcrumbItem className="hidden md:block">
+                  <Dashboard.BreadcrumbLink href="#">
+                  <Dashboard.ThemeSwitcher />
                     Building Your Application
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator className="hidden md:block" />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
+                  </Dashboard.BreadcrumbLink>
+                </Dashboard.BreadcrumbItem>
+                <Dashboard.BreadcrumbSeparator className="hidden md:block" />
+                <Dashboard.BreadcrumbItem>
+                  <Dashboard.BreadcrumbPage>Data Fetching</Dashboard.BreadcrumbPage>
+                </Dashboard.BreadcrumbItem>
+              </Dashboard.BreadcrumbList>
+            </Dashboard.Breadcrumb>
           </div>
         </header>
         
@@ -68,7 +54,7 @@ export default async function Page() {
           <div className="grid auto-rows-min gap-4 md:grid-cols-3">
             <div className="col-span-2">
 
-              <PerformanceMetrics  performanceData={performanceData} departmentPerformance={departmentPerformance} averageRating={averageRating}/>
+              <Dashboard.PerformanceMetrics  performanceData={performanceData} departmentPerformance={departmentPerformance} averageRating={averageRating}/>
             </div>
             
             <div className="aspect-video rounded-xl bg-muted/50" />
@@ -78,11 +64,11 @@ export default async function Page() {
             <div className="container mx-auto py-10">
             
 
-            <HireChart/>
+            <Dashboard.HireChart/>
              </div>
             </div>
         </div>
-      </SidebarInset>
-    </SidebarProvider>
+      </Dashboard.SidebarInset>
+    </Dashboard.SidebarProvider>
   )
 }
