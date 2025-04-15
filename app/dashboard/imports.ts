@@ -1,6 +1,6 @@
-import HireChart from "@/components/hire-chart"
+import HireChart from "@/components/charts/hiring-layoff-trends"
 import { AppSidebar } from "@/components/app-sidebar"
-import  PerformanceMetrics  from "@/components/performance_metrics"
+import  PerformanceMetrics  from "@/components/charts/performance-metrics"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -15,7 +15,6 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
-import { createClient } from "@/utils/supabase/server";
 import {ThemeSwitcher} from "@/components/theme-switcher"
 
 
@@ -32,5 +31,4 @@ export {HireChart,
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
- createClient ,
  ThemeSwitcher}

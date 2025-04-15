@@ -14,9 +14,9 @@ import {
   SquareTerminal,
 } from "lucide-react"
 import { UserResponse } from "@supabase/supabase-js"
-import { NavMain } from "@/components/nav-main"
-import { NavProjects } from "@/components/nav-projects"
-import { NavUser } from "@/components/nav-user"
+import { NavMain } from "@/components/nav/main"
+import { NavProjects } from "@/components/nav/projects"
+import { NavUser } from "@/components/nav/user"
 import { TeamSwitcher } from "@/components/team-switcher"
 import {
   Sidebar,
@@ -25,7 +25,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
-import {createClient} from "@/utils/supabase/client"
+import {createClient} from "@/lib/supabase/client"
 
 
 // This is sample data.

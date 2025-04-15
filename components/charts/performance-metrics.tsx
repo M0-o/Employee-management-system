@@ -6,31 +6,20 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { type ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
 import { cn } from "@/lib/utils"
-
-interface PerformanceData {
-  performance_score: string
-  number_of_employees: number
-  percentage: number
-}
-
-interface DepartmentPerformance {
-  group_: string
-  average_rating: number
-}
-
-
+import React from 'react';
+import type { PerformanceData, DepartmentPerformance } from '@/Data/queries';
 
 interface PerformanceMetricsProps {
-  performanceData: PerformanceData[]
-  departmentPerformance: DepartmentPerformance[]
-  averageRating: number
+  performanceData: PerformanceData[] | null;
+  departmentPerformance: DepartmentPerformance[] | null;
+  averageRating: number | null;
   className?: string
 }
 
 export default function PerformanceMetrics({
   performanceData,
   departmentPerformance,
-  averageRating ,
+  averageRating,
   className,
 }: PerformanceMetricsProps) {
   // Chart config
@@ -39,6 +28,10 @@ export default function PerformanceMetrics({
       label: "Average Rating",
       color: "hsl(var(--chart-1))",
     },
+  }
+
+  if (!performanceData || !departmentPerformance || averageRating === null) {
+    return <div>Loading...</div>
   }
 
   return (
@@ -103,7 +96,7 @@ export default function PerformanceMetrics({
             <div className="space-y-4">
               <div className=" w-full overflow-hidden">
                 <ChartContainer config={chartConfig}>
-                  <ResponsiveContainer  width="100%" height="100%">
+                  <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={departmentPerformance}>
                       <XAxis
                         dataKey="group_"
@@ -138,7 +131,6 @@ export default function PerformanceMetrics({
               </div>
             </div>
           </TabsContent>
-        
         </Tabs>
       </CardContent>
     </Card>

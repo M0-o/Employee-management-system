@@ -2,31 +2,17 @@ import { QUERIES } from "@/Data/queries";
 import * as Dashboard from "./imports";
 
 export default async function Page() {
-
-  const supabase = await Dashboard.createClient();
-  const performanceDataResponse = await supabase.rpc("performance_score_percentage")
-  if (performanceDataResponse.error) {
-    console.error("Error fetching performance data:", performanceDataResponse.error)
-  }
-  const performanceData = performanceDataResponse.data
   
-  
-  const departmentPerformance = await QUERIES.getPerformanceRatingByDepartment()
- 
-  
-  const averageRatingResponse = await supabase.rpc("employee_rating_average") 
-  if (averageRatingResponse.error) {
-    console.error("Error fetching average rating:", averageRatingResponse.error)
-  }
+  const performanceDataPromise =  QUERIES.getPerformanceScoresPercentages();
+  const departmentPerformancePromise =  QUERIES.getPerformanceRatingByDepartment()
+  const EmployeeAverageRatingPromise = QUERIES.getEmployeeRatingAverage() ;
 
-  const averageRating = averageRatingResponse.data
-
-// finish extracting all the queries , and add a promise.all where usable . text wife
-
+const [performanceData , 
+  departmentPerformance ,
+   EmployeeAverageRating] = await Promise.all([performanceDataPromise , departmentPerformancePromise , EmployeeAverageRatingPromise])
   
   return (
     <Dashboard.SidebarProvider>
-     
       <Dashboard.AppSidebar />
       <Dashboard.SidebarInset>
         <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
@@ -54,7 +40,7 @@ export default async function Page() {
           <div className="grid auto-rows-min gap-4 md:grid-cols-3">
             <div className="col-span-2">
 
-              <Dashboard.PerformanceMetrics  performanceData={performanceData} departmentPerformance={departmentPerformance} averageRating={averageRating}/>
+              <Dashboard.PerformanceMetrics  performanceData={performanceData} departmentPerformance={departmentPerformance} averageRating={EmployeeAverageRating}/>
             </div>
             
             <div className="aspect-video rounded-xl bg-muted/50" />

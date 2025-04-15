@@ -1,7 +1,7 @@
 
 import { T_Employee, columns } from "@/app/employees/columns"
 import  DataTable  from "@/app/employees/data-table"
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 
 async function getNumberOfEmployees():Promise<number>{
   const supabase = await createClient();

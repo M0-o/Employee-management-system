@@ -1,5 +1,4 @@
 import React from 'react';
-import { createClient } from "@/utils/supabase/server";
 import { notFound } from "next/navigation"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
@@ -12,7 +11,6 @@ import {formatDate , displayValue } from "@/lib/utils"
 
 export {
     React ,
-    createClient ,
     notFound,
     Avatar,
     AvatarFallback,
@@ -33,5 +31,4 @@ export {
     T_Employee,
     formatDate,
     displayValue,
-
 }

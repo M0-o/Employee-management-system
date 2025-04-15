@@ -1,5 +1,5 @@
 import { forgotPasswordAction } from "@/app/auth/actions";
-import { SmtpMessage } from "./smtp-message";
+import { SmtpMessage } from "../../components/auth/smtp-message";
 import { signUpAction } from "@/app/auth/actions";
 import { FormMessage } from "@/components/form-message";
 import type { Message } from "@/components/form-message";

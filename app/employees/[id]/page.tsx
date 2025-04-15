@@ -1,4 +1,5 @@
 import *  as Employee from "./imports";
+import {QUERIES} from "@/Data/queries"
 
 type ParamsWithId = Promise<any> & {
   id: string
@@ -8,11 +9,8 @@ export default async function EmployeeDetailsPage({
 }: {
   params: ParamsWithId
 }) {
-  const id = (await params).id ;
-  const supabase = await Employee.createClient();
-  const { data , error } = await supabase.from("employees").select("*").eq("emp_id", id);
-
-const employee: Employee.T_Employee | null = data ? data[0] : null;
+  const id = (await params).id;
+  const employee = await QUERIES.getEmployee(Number(id));
 
   if (!employee) {
     Employee.notFound()
