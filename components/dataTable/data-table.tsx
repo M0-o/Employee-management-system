@@ -2,7 +2,7 @@
 import * as React from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { DataTablePagination } from "./data-table-pagination"
+import { DataTablePagination } from "./config/pagination"
 import {
   ColumnDef,
   flexRender,

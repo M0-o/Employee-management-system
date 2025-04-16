@@ -1,15 +1,17 @@
-import { QUERIES } from "@/Data/queries";
+import { QUERIES } from "@/data/queries";
 import * as Dashboard from "./imports";
 
 export default async function Page() {
   
   const performanceDataPromise =  QUERIES.getPerformanceScoresPercentages();
   const departmentPerformancePromise =  QUERIES.getPerformanceRatingByDepartment()
-  const EmployeeAverageRatingPromise = QUERIES.getEmployeeRatingAverage() ;
+  const employeeAverageRatingPromise = QUERIES.getEmployeeRatingAverage() ;
+  const growthDataPromise = QUERIES.getGrowthTrends() ;
 
 const [performanceData , 
   departmentPerformance ,
-   EmployeeAverageRating] = await Promise.all([performanceDataPromise , departmentPerformancePromise , EmployeeAverageRatingPromise])
+   employeeAverageRating,
+  growthData] = await Promise.all([performanceDataPromise , departmentPerformancePromise , employeeAverageRatingPromise , growthDataPromise])
   
   return (
     <Dashboard.SidebarProvider>
@@ -40,7 +42,7 @@ const [performanceData ,
           <div className="grid auto-rows-min gap-4 md:grid-cols-3">
             <div className="col-span-2">
 
-              <Dashboard.PerformanceMetrics  performanceData={performanceData} departmentPerformance={departmentPerformance} averageRating={EmployeeAverageRating}/>
+              <Dashboard.PerformanceMetrics  performanceData={performanceData} departmentPerformance={departmentPerformance} averageRating={employeeAverageRating}/>
             </div>
             
             <div className="aspect-video rounded-xl bg-muted/50" />
@@ -50,7 +52,7 @@ const [performanceData ,
             <div className="container mx-auto py-10">
             
 
-            <Dashboard.HireChart/>
+            <Dashboard.GrowthTrendsChart growthData={growthData}/>
              </div>
             </div>
         </div>

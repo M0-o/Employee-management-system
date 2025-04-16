@@ -1,17 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
+import { DepartmentPerformance, growthDataItem, PerformanceData } from "@/data/types";
 
-export interface PerformanceData {
-    score: string;
-    performance_score: string;
-    percentage: number;
-    number_of_employees?: number;
-}
-
-export interface DepartmentPerformance {
-    department_type: string;
-    average_rating: number;
-    group_?: string;
-}
 
 const executeQuery = async <T>(queryFn: (supabase: Awaited<ReturnType<typeof createClient>>) => Promise<{ data: T | null; error: any }>) => {
     const supabase = await createClient();
@@ -24,6 +13,7 @@ const executeQuery = async <T>(queryFn: (supabase: Awaited<ReturnType<typeof cre
 };
 
 export const QUERIES = {
+
     getPerformanceRatingByDepartment: () =>
         executeQuery<DepartmentPerformance[]>(async supabase =>
             await supabase.rpc("performance_rating_average_by_param", { param: "department_type" })
@@ -48,5 +38,26 @@ export const QUERIES = {
                 .single(); 
             
             return { data, error };
-        })
+        }),
+
+    getEmployees: () => 
+        executeQuery(async supabase => {
+            const { data, error } = await supabase
+                .from("employees")
+                .select("*")
+                .order("emp_id", { ascending: true });
+            
+            return { data, error };
+        }
+    ),
+
+    getGrowthTrends: () =>
+        executeQuery<growthDataItem[]>(async supabase =>
+            await supabase.rpc("get_employee_start_exit_counts")
+        ),
+
+    getEmployeeCount: () =>
+        executeQuery<number>(async supabase =>
+            await supabase.rpc("number_of_employees")
+        ),
 };

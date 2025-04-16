@@ -11,35 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-
-export type T_Employee = {
-  emp_id: number
-  first_name: string
-  last_name: string
-  start_date: string
-  exit_date: string | null
-  supervisor: string | null
-  email: string
-  business_unit: string
-  employee_status: string
-  employee_type: string
-  payzone: string
-  employee_classification: string
-  termination_type: string | null
-  termination_description: string | null
-  department_type: string | null
-  division: string | null
-  birthdate: string | null
-  state: string | null
-  job_function_desc: string | null
-  gender_code: string | null
-  location_code: number | null
-  race: string | null
-  marital_status: string | null
-  performance_score: string | null
-  current_employee_rating: number | null
-  job_title_id: number | null
-}
+import { T_Employee } from "@/data/types"
 
 
 

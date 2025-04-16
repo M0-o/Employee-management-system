@@ -1,34 +1,12 @@
 
-import { T_Employee, columns } from "@/app/employees/columns"
-import  DataTable  from "@/app/employees/data-table"
-import { createClient } from "@/lib/supabase/server";
+import { columns } from "@/components/dataTable/config/columns"
+import  DataTable  from "@/components/dataTable/data-table"
+import { T_Employee } from "@/data/types"
+import {QUERIES } from "@/data/queries"
 
-async function getNumberOfEmployees():Promise<number>{
-  const supabase = await createClient();
-  
-  let { data, error } = await supabase
-  .rpc('number_of_employees')
-  if (error) console.error(error)
-  
-
-  
-  return data ;
-
-}
-async function fetchData(): Promise<T_Employee[]> {
-  const num :number = await getNumberOfEmployees();
-    const supabase = await createClient();
-   
-    const { data, error } = await supabase.from("employees").select("*").range(0,num);
-    if (error) {
-      console.error("error", error);
-   
-  };
-  return data as T_Employee[];
-  };
 
   export default async function Page() {
-  const employees = await fetchData();
+  const employees = await QUERIES.getEmployees();
   if (!employees) {
     return <div>Loading...</div>
   }

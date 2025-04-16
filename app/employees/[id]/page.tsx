@@ -1,9 +1,10 @@
 import *  as Employee from "./imports";
-import {QUERIES} from "@/Data/queries"
+import {QUERIES} from "@/data/queries"
 
 type ParamsWithId = Promise<any> & {
   id: string
 }
+
 export default async function EmployeeDetailsPage({
   params,
 }: {
@@ -15,6 +16,8 @@ export default async function EmployeeDetailsPage({
   if (!employee) {
     Employee.notFound()
   }
+
+  console.log("termination type", employee.termination_type);
 
   return (
     <div className="container mx-auto py-8 px-4">
@@ -194,7 +197,7 @@ export default async function EmployeeDetailsPage({
             </div>
 
             {/* Termination Information (only shown if applicable) */}
-            {employee.termination_type && (
+            {employee.termination_type != "Unk"  && (
               <>
                 <Employee.Separator className="my-6" />
                 <div className="space-y-4">

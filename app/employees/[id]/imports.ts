@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { CalendarIcon, MailIcon, MapPinIcon, BuildingIcon, UserIcon, BriefcaseIcon, StarIcon } from "lucide-react"
-import type {T_Employee} from "@/app/employees/columns"
+import type {T_Employee} from "@/data/types"
 import {formatDate , displayValue } from "@/lib/utils"
 
 

@@ -1,6 +1,6 @@
-import HireChart from "@/components/charts/hiring-layoff-trends"
+import GrowthTrendsChart from "@/components/charts/growth-trends/growth-trends"
 import { AppSidebar } from "@/components/app-sidebar"
-import  PerformanceMetrics  from "@/components/charts/performance-metrics"
+import  PerformanceMetrics  from "@/components/charts/performance/performance-metrics"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -18,7 +18,7 @@ import {
 import {ThemeSwitcher} from "@/components/theme-switcher"
 
 
-export {HireChart,
+export {GrowthTrendsChart,
  AppSidebar,
   PerformanceMetrics ,
   Breadcrumb,

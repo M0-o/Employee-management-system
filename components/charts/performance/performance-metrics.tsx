@@ -1,17 +1,10 @@
 "use client"
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { type ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
-import { cn } from "@/lib/utils"
-import React from 'react';
-import type { PerformanceData, DepartmentPerformance } from '@/Data/queries';
+import * as Performance from "./imports"
 
 interface PerformanceMetricsProps {
-  performanceData: PerformanceData[] | null;
-  departmentPerformance: DepartmentPerformance[] | null;
+  performanceData: Performance.PerformanceData[] | null;
+  departmentPerformance: Performance.DepartmentPerformance[] | null;
   averageRating: number | null;
   className?: string
 }
@@ -22,31 +15,24 @@ export default function PerformanceMetrics({
   averageRating,
   className,
 }: PerformanceMetricsProps) {
-  // Chart config
-  const chartConfig: ChartConfig = {
-    average: {
-      label: "Average Rating",
-      color: "hsl(var(--chart-1))",
-    },
-  }
-
+ 
   if (!performanceData || !departmentPerformance || averageRating === null) {
     return <div>Loading...</div>
   }
 
   return (
-    <Card className={cn("col-span-full lg:col-span-2", className)}>
-      <CardHeader>
-        <CardTitle>Performance Metrics</CardTitle>
-        <CardDescription>Employee performance ratings </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <Tabs defaultValue="overview" className="space-y-4">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="departments">By Department</TabsTrigger>
-          </TabsList>
-          <TabsContent value="overview" className="space-y-4">
+    <Performance.Card className={Performance.cn("col-span-full lg:col-span-2", className)}>
+      <Performance.CardHeader>
+        <Performance.CardTitle>Performance Metrics</Performance.CardTitle>
+        <Performance.CardDescription>Employee performance ratings </Performance.CardDescription>
+      </Performance.CardHeader>
+      <Performance.CardContent>
+        <Performance.Tabs defaultValue="overview" className="space-y-4">
+          <Performance.TabsList className="grid w-full grid-cols-3">
+            <Performance.TabsTrigger value="overview">Overview</Performance.TabsTrigger>
+            <Performance.TabsTrigger value="departments">By Department</Performance.TabsTrigger>
+          </Performance.TabsList>
+          <Performance.TabsContent value="overview" className="space-y-4">
             <div className="grid gap-4 md:grid-cols-3">
               {performanceData.map((item) => (
                 <div key={item.performance_score} className="space-y-2">
@@ -54,7 +40,7 @@ export default function PerformanceMetrics({
                     <span className="text-sm font-medium">{item.performance_score}</span>
                     <span className="text-sm font-medium">{item.percentage}%</span>
                   </div>
-                  <Progress
+                  <Performance.Progress
                     value={item.percentage}
                     className={
                       item.performance_score === "Exceeds"
@@ -91,26 +77,26 @@ export default function PerformanceMetrics({
                 </div>
               </div>
             </div>
-          </TabsContent>
-          <TabsContent value="departments">
+          </Performance.TabsContent>
+          <Performance.TabsContent value="departments">
             <div className="space-y-4">
               <div className=" w-full overflow-hidden">
-                <ChartContainer config={chartConfig}>
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={departmentPerformance}>
-                      <XAxis
+                <Performance.ChartContainer config={Performance.chartConfig}>
+                  <Performance.ResponsiveContainer width="100%" height="100%">
+                    <Performance.BarChart data={departmentPerformance}>
+                      <Performance.XAxis
                         dataKey="group_"
                         tickLine={false}
                         axisLine={false}
                         fontSize={12}
                         tickFormatter={(value) => value.split(" ")[0]}
                       />
-                      <YAxis tickLine={false} axisLine={false} fontSize={12} tickCount={6} domain={[0, 5]} />
-                      <ChartTooltip content={<ChartTooltipContent />} />
-                      <Bar dataKey="average_rating" fill="hsl(var(--chart-1))" radius={[4, 4, 0, 0]} />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </ChartContainer>
+                      <Performance.YAxis tickLine={false} axisLine={false} fontSize={12} tickCount={6} domain={[0, 5]} />
+                      <Performance.ChartTooltip content={<Performance.ChartTooltipContent />} />
+                      <Performance.Bar dataKey="average_rating" fill="hsl(var(--chart-1))" radius={[4, 4, 0, 0]} />
+                    </Performance.BarChart>
+                  </Performance.ResponsiveContainer>
+                </Performance.ChartContainer>
               </div>
               <div className="space-y-2">
                 <h4 className="text-sm font-medium">Department Performance</h4>
@@ -130,10 +116,10 @@ export default function PerformanceMetrics({
                 </div>
               </div>
             </div>
-          </TabsContent>
-        </Tabs>
-      </CardContent>
-    </Card>
+          </Performance.TabsContent>
+        </Performance.Tabs>
+      </Performance.CardContent>
+    </Performance.Card>
   )
 }
 
