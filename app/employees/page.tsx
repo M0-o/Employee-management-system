@@ -1,6 +1,6 @@
 
-import { columns } from "@/components/dataTable/config/columns"
-import  DataTable  from "@/components/dataTable/data-table"
+import { columns } from "@/components/data-table/config/columns"
+import  DataTable  from "@/components/data-table/data-table"
 import { T_Employee } from "@/data/types"
 import {QUERIES } from "@/data/queries"
 

@@ -1,6 +1,7 @@
 import { QUERIES } from "@/data/queries";
 import * as Dashboard from "./imports";
 
+
 export default async function Page() {
   
   const performanceDataPromise =  QUERIES.getPerformanceScoresPercentages();
