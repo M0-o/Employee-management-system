@@ -180,17 +180,24 @@ React.useEffect(() => {
     return <div>Loading...</div>
   }
   console.log(user.data.user)
+  const currentUser = user.data.user
+    ? {
+        name: user.data.user.user_metadata?.full_name || "Default Name",
+        email: user.data.user.email || "default@example.com",
+        avatar: user.data.user.user_metadata?.avatar_url || "/avatars/default.png",
+      }
+    : data.user;
   return (
     <Sidebar collapsible="icon" {...props}>
-      <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
-      </SidebarHeader>
+      <SidebarFooter>
+        <NavUser user={ currentUser } />
+      </SidebarFooter>
       <SidebarContent>
         <NavMain items={data.navMain} />
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={ user.data.user ?? data.user } />
+        <NavUser user={ currentUser } />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
