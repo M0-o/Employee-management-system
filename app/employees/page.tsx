@@ -7,6 +7,7 @@ import {QUERIES } from "@/data/queries"
 
   export default async function Page() {
   const employees = await QUERIES.getEmployees();
+  
   if (!employees) {
     return <div>Loading...</div>
   }

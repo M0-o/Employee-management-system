@@ -60,4 +60,8 @@ export const QUERIES = {
         executeQuery<number>(async supabase =>
             await supabase.rpc("number_of_employees")
         ),
+    getEmployeeDistributionByGender: () =>
+        executeQuery(async supabase =>
+            await supabase.rpc("employee_distribution_by_gender")
+        ),
 };

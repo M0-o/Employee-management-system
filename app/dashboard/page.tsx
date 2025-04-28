@@ -1,18 +1,20 @@
 import { QUERIES } from "@/data/queries";
 import * as Dashboard from "./imports";
 
-
+//import Component from "@/components/charts/employee-distribution/employee-distribution-by-gender";
 export default async function Page() {
   
   const performanceDataPromise =  QUERIES.getPerformanceScoresPercentages();
   const departmentPerformancePromise =  QUERIES.getPerformanceRatingByDepartment()
   const employeeAverageRatingPromise = QUERIES.getEmployeeRatingAverage() ;
   const growthDataPromise = QUERIES.getGrowthTrends() ;
+  const employeeDistributionByGenderPromise = QUERIES.getEmployeeDistributionByGender() ;
 
 const [performanceData , 
   departmentPerformance ,
    employeeAverageRating,
-  growthData] = await Promise.all([performanceDataPromise , departmentPerformancePromise , employeeAverageRatingPromise , growthDataPromise])
+  growthData ,
+employeeDistributionByGender] = await Promise.all([performanceDataPromise , departmentPerformancePromise , employeeAverageRatingPromise , growthDataPromise , employeeDistributionByGenderPromise])
   
   return (
     <Dashboard.SidebarProvider>
@@ -45,7 +47,9 @@ const [performanceData ,
 
               <Dashboard.PerformanceMetrics  performanceData={performanceData} departmentPerformance={departmentPerformance} averageRating={employeeAverageRating}/>
             </div>
-            
+
+          <Dashboard.EmployeeDistributionByGender distribution={employeeDistributionByGender}/> 
+
             <div className="aspect-video rounded-xl bg-muted/50" />
             <div className="aspect-video rounded-xl bg-muted/50" />
           </div>

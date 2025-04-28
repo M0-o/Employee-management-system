@@ -10,8 +10,8 @@ export default async function EmployeeDetailsPage({
 }: {
   params: ParamsWithId
 }) {
-  const id = (await params).id;
-  const employee = await QUERIES.getEmployee(Number(id));
+  const id:number = (await params).id;
+  const employee = await QUERIES.getEmployee(id);
 
   if (!employee) {
     Employee.notFound()

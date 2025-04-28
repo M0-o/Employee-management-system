@@ -16,6 +16,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar"
 import {ThemeSwitcher} from "@/components/theme-switcher"
+import EmployeeDistributionByGender from "@/components/charts/employee-distribution/employee-distribution-by-gender"
 
 
 export {GrowthTrendsChart,
@@ -31,4 +32,5 @@ export {GrowthTrendsChart,
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
- ThemeSwitcher}
+ ThemeSwitcher,
+EmployeeDistributionByGender}

@@ -25,5 +25,4 @@ export const defaultVisibility : Record<string , boolean>={
     performance_score : true ,
     current_employee_rating : true ,
     job_title_id : true ,
-
   }

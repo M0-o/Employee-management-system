@@ -49,3 +49,8 @@ export interface growthDataItem {
   terminations: number
 }
 
+export interface employeeDistributionByGender{
+  gender : string ;
+  number : number ;
+  percentage : number ;
+}
