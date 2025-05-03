@@ -6,7 +6,7 @@ import { Bar, BarChart, XAxis, YAxis } from "recharts"
 import { cn } from "@/lib/utils"
 import { ResponsiveContainer } from 'recharts'
 import {chartConfig } from "./config"
-import { type PerformanceData , type DepartmentPerformance} from "@/data/types"
+import { type PerformanceData , type DepartmentPerformance , type payzonePerformance} from "@/data/types"
 
 export {
     Card,
@@ -31,4 +31,5 @@ export {
     cn,
     PerformanceData,
     DepartmentPerformance,
+    payzonePerformance
 }

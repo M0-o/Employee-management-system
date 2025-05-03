@@ -1,67 +1,68 @@
-import { QUERIES } from "@/data/queries";
-import * as Dashboard from "./imports";
+import { QUERIES } from "@/data/queries"
+import * as Dashboard from "./imports"
 
-//import Component from "@/components/charts/employee-distribution/employee-distribution-by-gender";
 export default async function Page() {
-  
-  const performanceDataPromise =  QUERIES.getPerformanceScoresPercentages();
-  const departmentPerformancePromise =  QUERIES.getPerformanceRatingByDepartment()
-  const employeeAverageRatingPromise = QUERIES.getEmployeeRatingAverage() ;
-  const growthDataPromise = QUERIES.getGrowthTrends() ;
-  const employeeDistributionByGenderPromise = QUERIES.getEmployeeDistributionByGender() ;
+  const performanceDataPromise = QUERIES.getPerformanceScoresPercentages()
+  const departmentPerformancePromise = QUERIES.getPerformanceRatingByDepartment()
+  const employeeAverageRatingPromise = QUERIES.getEmployeeRatingAverage()
+  const growthDataPromise = QUERIES.getGrowthTrends()
+  const employeeDistributionByGenderPromise = QUERIES.getEmployeeDistributionByGender()
+  const payzonePerformancePromise = QUERIES.getPerformanceRatingByPayZone();
 
-const [performanceData , 
-  departmentPerformance ,
-   employeeAverageRating,
-  growthData ,
-employeeDistributionByGender] = await Promise.all([performanceDataPromise , departmentPerformancePromise , employeeAverageRatingPromise , growthDataPromise , employeeDistributionByGenderPromise])
-  
+  const [performanceData, departmentPerformance, employeeAverageRating, growthData, employeeDistributionByGender , payzonePerformance] =
+    await Promise.all([
+      performanceDataPromise,
+      departmentPerformancePromise,
+      employeeAverageRatingPromise,
+      growthDataPromise,
+      employeeDistributionByGenderPromise,
+      payzonePerformancePromise
+    ])
+
   return (
-    <Dashboard.SidebarProvider>
-      <Dashboard.AppSidebar />
-      <Dashboard.SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
-          <div className="flex items-center gap-2 px-4">
-            <Dashboard.SidebarTrigger className="-ml-1" />
-            <Dashboard.Separator orientation="vertical" className="mr-2 h-4" />
-            <Dashboard.Breadcrumb>
-              <Dashboard.BreadcrumbList>
-                <Dashboard.BreadcrumbItem className="hidden md:block">
-                  <Dashboard.BreadcrumbLink href="#">
-                  <Dashboard.ThemeSwitcher />
-                    Building Your Application
-                  </Dashboard.BreadcrumbLink>
-                </Dashboard.BreadcrumbItem>
-                <Dashboard.BreadcrumbSeparator className="hidden md:block" />
-                <Dashboard.BreadcrumbItem>
-                  <Dashboard.BreadcrumbPage>Data Fetching</Dashboard.BreadcrumbPage>
-                </Dashboard.BreadcrumbItem>
-              </Dashboard.BreadcrumbList>
-            </Dashboard.Breadcrumb>
+    <div className="container mx-auto py-6 ">
+      {/* Dashboard Header */}
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold">HR Analytics Dashboard</h1>
+        <Dashboard.ThemeSwitcher />
+      </div>
+
+      {/* Main Dashboard Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+        {/* Performance Metrics Card - Takes 2/3 of the width on large screens */}
+        <div className="lg:col-span-2 bg-card rounded-lg  shadow-sm">
+         
+          <div className="p-6">
+            <Dashboard.PerformanceMetrics
+              performanceData={performanceData}
+              departmentPerformance={departmentPerformance}
+              payzonePerformance={payzonePerformance}
+              averageRating={employeeAverageRating}
+            />
           </div>
-        </header>
-        
-        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-          <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-            <div className="col-span-2">
-
-              <Dashboard.PerformanceMetrics  performanceData={performanceData} departmentPerformance={departmentPerformance} averageRating={employeeAverageRating}/>
-            </div>
-
-          <Dashboard.EmployeeDistributionByGender distribution={employeeDistributionByGender}/> 
-
-            <div className="aspect-video rounded-xl bg-muted/50" />
-            <div className="aspect-video rounded-xl bg-muted/50" />
-          </div>
-          <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" > 
-            <div className="container mx-auto py-10">
-            
-
-            <Dashboard.GrowthTrendsChart growthData={growthData}/>
-             </div>
-            </div>
         </div>
-      </Dashboard.SidebarInset>
-    </Dashboard.SidebarProvider>
+
+        {/* Employee Distribution Card - Takes 1/3 of the width on large screens */}
+        <div className="bg-card rounded-lg  shadow-sm">
+          
+          <div className="p-6">
+            <Dashboard.EmployeeDistributionByGender distribution={employeeDistributionByGender} />
+          </div>
+        </div>
+
+        {/* Growth Trends Card - Full width */}
+        <div className="lg:col-span-3 bg-card rounded-lg  shadow-sm">
+          
+          <div className="p-6">
+            <Dashboard.GrowthTrendsChart growthData={growthData} />
+          </div>
+        </div>
+      </div>
+
+      {/* Dashboard Footer */}
+      <div className="text-sm text-muted-foreground text-right">
+        <p>Last updated: {new Date().toLocaleDateString()}</p>
+      </div>
+    </div>
   )
 }

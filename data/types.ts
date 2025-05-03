@@ -54,3 +54,9 @@ export interface employeeDistributionByGender{
   number : number ;
   percentage : number ;
 }
+
+export interface payzonePerformance {
+  payzone: string;
+  average_rating: number;
+  group_?: string;
+}

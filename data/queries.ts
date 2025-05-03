@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import { DepartmentPerformance, growthDataItem, PerformanceData } from "@/data/types";
+import { DepartmentPerformance, growthDataItem, payzonePerformance, PerformanceData } from "@/data/types";
 
 
 const executeQuery = async <T>(queryFn: (supabase: Awaited<ReturnType<typeof createClient>>) => Promise<{ data: T | null; error: any }>) => {
@@ -18,6 +18,10 @@ export const QUERIES = {
         executeQuery<DepartmentPerformance[]>(async supabase =>
             await supabase.rpc("performance_rating_average_by_param", { param: "department_type" })
         ),
+    getPerformanceRatingByPayZone: () =>
+            executeQuery<payzonePerformance[]>(async supabase =>
+                await supabase.rpc("performance_rating_average_by_param", { param: "payzone" })
+            ),
 
     getPerformanceScoresPercentages: () =>
         executeQuery<PerformanceData[]>(async supabase =>

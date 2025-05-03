@@ -159,7 +159,7 @@ const data = {
 }
 
 const SupabaseAuthClient = createClient()
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export default function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 const [user, setUser] = React.useState<UserResponse | null>(null)
 React.useEffect(() => {
   const fetchUser = async () => {
