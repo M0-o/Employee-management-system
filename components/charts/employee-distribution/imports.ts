@@ -1,5 +1,4 @@
 
-import * as React from "react"
 import { TrendingUp } from "lucide-react"
 import { Label, Pie, PieChart } from "recharts"
 
@@ -17,12 +16,18 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-import {chartConfig} from "./config"
+import {genderChartConfig , raceChartConfig} from "./config"
 import {Legend} from "recharts"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { type employeeDistributionByGender , type employeeDistributionByRace} from '@/data/types';
 export {
     TrendingUp,
     Label,
     Pie,
+    Tabs,
+    TabsContent,
+    TabsList,
+    TabsTrigger,
     PieChart,
     Card,
     CardContent,
@@ -34,7 +39,10 @@ export {
     ChartContainer,
     ChartTooltip,
     ChartTooltipContent,
-    chartConfig,
+    genderChartConfig,
     Legend,
+    employeeDistributionByGender,
+    employeeDistributionByRace,
+    raceChartConfig
     
 }

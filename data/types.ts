@@ -55,8 +55,20 @@ export interface employeeDistributionByGender{
   percentage : number ;
 }
 
+export interface employeeDistributionByRace{
+  race : string ;
+  number : number ;
+  percentage : number ;
+}
+
 export interface payzonePerformance {
   payzone: string;
   average_rating: number;
   group_?: string;
+}
+
+export interface basicEmployeeInfo {
+  first_name: string;
+  last_name: string;
+  performance_score: string;
 }

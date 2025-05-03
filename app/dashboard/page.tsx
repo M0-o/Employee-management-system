@@ -8,15 +8,25 @@ export default async function Page() {
   const growthDataPromise = QUERIES.getGrowthTrends()
   const employeeDistributionByGenderPromise = QUERIES.getEmployeeDistributionByGender()
   const payzonePerformancePromise = QUERIES.getPerformanceRatingByPayZone();
-
-  const [performanceData, departmentPerformance, employeeAverageRating, growthData, employeeDistributionByGender , payzonePerformance] =
+  const topPerformersPromise = QUERIES.getTopPerformers();
+  const employeeDistributionByRacePromise = QUERIES.getEmployeeDistributionByRace()
+  const [performanceData, 
+    departmentPerformance, 
+    employeeAverageRating, 
+    growthData, 
+    employeeDistributionByGender , 
+    employeeDistributionByRace,
+    payzonePerformance ,
+   topPerformers] =
     await Promise.all([
       performanceDataPromise,
       departmentPerformancePromise,
       employeeAverageRatingPromise,
       growthDataPromise,
       employeeDistributionByGenderPromise,
-      payzonePerformancePromise
+      employeeDistributionByRacePromise,
+      payzonePerformancePromise,
+      topPerformersPromise
     ])
 
   return (
@@ -46,7 +56,7 @@ export default async function Page() {
         <div className="bg-card rounded-lg  shadow-sm">
           
           <div className="p-6">
-            <Dashboard.EmployeeDistributionByGender distribution={employeeDistributionByGender} />
+          <Dashboard.EmployeeDistributionByGender genderDistribution={employeeDistributionByGender} raceDistribution={employeeDistributionByRace}/>
           </div>
         </div>
 

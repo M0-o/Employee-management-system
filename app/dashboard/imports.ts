@@ -4,7 +4,7 @@ import  PerformanceMetrics  from "@/components/charts/performance/performance-me
 import { Separator } from "@/components/ui/separator"
 
 import {ThemeSwitcher} from "@/components/theme-switcher"
-import EmployeeDistributionByGender from "@/components/charts/employee-distribution/employee-distribution-by-gender"
+import EmployeeDistributionByGender from "@/components/charts/employee-distribution/employee-distribution"
 import {
   ResizableHandle,
   ResizablePanel,

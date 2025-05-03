@@ -1,29 +1,46 @@
 "use client"
 import * as EmployeeDistribution from "./imports"
-import { employeeDistributionByGender } from '@/data/types';
 
 
-interface distributionPieChartData extends employeeDistributionByGender {
+
+interface genderDistributionPieChartData extends EmployeeDistribution.employeeDistributionByGender  {
     fill ?: string ;
 }
-interface employeeDistributionByGenderProps {
-    distribution: distributionPieChartData[];
+interface raceDistributionPieChartData extends EmployeeDistribution.employeeDistributionByRace  {
+  fill ?: string ;
 }
 
-export default function EmployeeDistributionByGender({distribution}: employeeDistributionByGenderProps) {
+interface employeeDistributionByGenderProps {
+    genderDistribution: genderDistributionPieChartData[] | null;
+    raceDistribution: raceDistributionPieChartData[] |  null;
+}
+
+export default function EmployeeDistributionByGender({genderDistribution , raceDistribution}: employeeDistributionByGenderProps) {
   
-    const totalEmployees = distribution.reduce((acc, item) => acc + item.number, 0);
-    distribution.forEach((item) =>  item["fill"] = `var(--color-${item.gender})` )
+  if (!genderDistribution || !raceDistribution) {
+    return <div>Loading...</div>
+  }
+    const totalEmployees = genderDistribution.reduce((acc, item) => acc + item.number, 0);
+    genderDistribution.forEach((item) =>  item["fill"] = `var(--color-${item.gender})` )
+    raceDistribution.forEach((item) =>  item["fill"] = `var(--color-${item.race})` )
 
   return (
     <EmployeeDistribution.Card className="flex flex-col">
       <EmployeeDistribution.CardHeader className="items-center pb-0">
-        <EmployeeDistribution.CardTitle>Employee distribution by gender</EmployeeDistribution.CardTitle>
+        <EmployeeDistribution.CardTitle>Employee distribution </EmployeeDistribution.CardTitle>
         <EmployeeDistribution.CardDescription>January - June 2024</EmployeeDistribution.CardDescription>
       </EmployeeDistribution.CardHeader>
       <EmployeeDistribution.CardContent className="flex-1 pb-0">
+         <EmployeeDistribution.Tabs defaultValue="gender" className="space-y-4">
+                  <EmployeeDistribution.TabsList className="grid w-full grid-cols-2">
+                    <EmployeeDistribution.TabsTrigger value="gender">by gender</EmployeeDistribution.TabsTrigger>
+                    <EmployeeDistribution.TabsTrigger value="race">by race</EmployeeDistribution.TabsTrigger>
+                   
+                  </EmployeeDistribution.TabsList>
+        <EmployeeDistribution.TabsContent value="gender" className="space-y-4">
+
         <EmployeeDistribution.ChartContainer
-          config={EmployeeDistribution.chartConfig as EmployeeDistribution.ChartConfig}
+          config={EmployeeDistribution.genderChartConfig as EmployeeDistribution.ChartConfig}
           className="mx-auto aspect-square max-h-[250px]"
         >
           <EmployeeDistribution.PieChart>
@@ -32,7 +49,7 @@ export default function EmployeeDistributionByGender({distribution}: employeeDis
               content={<EmployeeDistribution.ChartTooltipContent hideLabel />}
             />
             <EmployeeDistribution.Pie
-              data={distribution}
+              data={genderDistribution}
               dataKey="number"
               nameKey="gender"
               innerRadius={60}
@@ -71,101 +88,26 @@ export default function EmployeeDistributionByGender({distribution}: employeeDis
             <EmployeeDistribution.Legend />
           </EmployeeDistribution.PieChart>
         </EmployeeDistribution.ChartContainer>
-      </EmployeeDistribution.CardContent>
-      <EmployeeDistribution.CardFooter className="flex-col gap-2 text-sm">
-      
-        <div className="leading-none text-muted-foreground">
-          Showing employees distribution
-        </div>
-      </EmployeeDistribution.CardFooter>
-    </EmployeeDistribution.Card>
-  )
-}
+        </EmployeeDistribution.TabsContent>
+        <EmployeeDistribution.TabsContent value="race" className="space-y-4">
 
-/*
-"use client"
-
-import * as React from "react"
-import { TrendingUp } from "lucide-react"
-import { Label, Pie, PieChart } from "recharts"
-
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart"
-const chartData = [
-  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-  { browser: "firefox", visitors: 287, fill: "var(--color-firefox)" },
-  { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
-  { browser: "other", visitors: 190, fill: "var(--color-other)" },
-]
-
-const chartConfig = {
-  visitors: {
-    label: "Visitors",
-  },
-  chrome: {
-    label: "Chrome",
-    color: "hsl(var(--chart-1))",
-  },
-  safari: {
-    label: "Safari",
-    color: "hsl(var(--chart-2))",
-  },
-  firefox: {
-    label: "Firefox",
-    color: "hsl(var(--chart-3))",
-  },
-  edge: {
-    label: "Edge",
-    color: "hsl(var(--chart-4))",
-  },
-  other: {
-    label: "Other",
-    color: "hsl(var(--chart-5))",
-  },
-} satisfies ChartConfig
-
-export default function Component() {
-  const totalVisitors = React.useMemo(() => {
-    return chartData.reduce((acc, curr) => acc + curr.visitors, 0)
-  }, [])
-
-  return (
-    <Card className="flex flex-col">
-      <CardHeader className="items-center pb-0">
-        <CardTitle>Pie Chart - Donut with Text</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
-      </CardHeader>
-      <CardContent className="flex-1 pb-0">
-        <ChartContainer
-          config={chartConfig}
+        <EmployeeDistribution.ChartContainer
+          config={EmployeeDistribution.raceChartConfig as EmployeeDistribution.ChartConfig}
           className="mx-auto aspect-square max-h-[250px]"
         >
-          <PieChart>
-            <ChartTooltip
+          <EmployeeDistribution.PieChart>
+            <EmployeeDistribution.ChartTooltip
               cursor={false}
-              content={<ChartTooltipContent hideLabel />}
+              content={<EmployeeDistribution.ChartTooltipContent hideLabel />}
             />
-            <Pie
-              data={chartData}
-              dataKey="visitors"
-              nameKey="browser"
+            <EmployeeDistribution.Pie
+              data={raceDistribution}
+              dataKey="number"
+              nameKey="race"
               innerRadius={60}
               strokeWidth={5}
             >
-              <Label
+              <EmployeeDistribution.Label
                 content={({ viewBox }) => {
                   if (viewBox && "cx" in viewBox && "cy" in viewBox) {
                     return (
@@ -180,33 +122,33 @@ export default function Component() {
                           y={viewBox.cy}
                           className="fill-foreground text-3xl font-bold"
                         >
-                          {totalVisitors.toLocaleString()}
+                          {totalEmployees.toLocaleString()}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) + 24}
                           className="fill-muted-foreground"
                         >
-                          Visitors
+                          Employees
                         </tspan>
                       </text>
                     )
                   }
                 }}
               />
-            </Pie>
-          </PieChart>
-        </ChartContainer>
-      </CardContent>
-      <CardFooter className="flex-col gap-2 text-sm">
-        <div className="flex items-center gap-2 font-medium leading-none">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
+            </EmployeeDistribution.Pie>
+            <EmployeeDistribution.Legend />
+          </EmployeeDistribution.PieChart>
+        </EmployeeDistribution.ChartContainer>
+        </EmployeeDistribution.TabsContent>
+        </EmployeeDistribution.Tabs >
+      </EmployeeDistribution.CardContent>
+      <EmployeeDistribution.CardFooter className="flex-col gap-2 text-sm">
+      
         <div className="leading-none text-muted-foreground">
-          Showing total visitors for the last 6 months
+          Showing employees distribution
         </div>
-      </CardFooter>
-    </Card>
+      </EmployeeDistribution.CardFooter>
+    </EmployeeDistribution.Card>
   )
 }
-*/
