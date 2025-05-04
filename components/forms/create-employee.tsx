@@ -79,7 +79,7 @@ export default function EmployeeForm({ defaultValues, onSubmit }: EmployeeFormPr
       <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
         {/* Basic Information Section */}
         <div>
-          <h2 className="text-xl font-semibold mb-4">Basic Information</h2>
+          <h2 className="text-xl font-semibold mb-4 text-foreground">Basic Information</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <FormField
               control={form.control}
@@ -144,9 +144,13 @@ export default function EmployeeForm({ defaultValues, onSubmit }: EmployeeFormPr
                       <FormControl>
                         <Button
                           variant="outline"
-                          className={`w-full pl-3 text-left font-normal ${!field.value ? "text-muted-foreground" : ""}`}
+                          className="w-full pl-3 text-left font-normal bg-background"
                         >
-                          {field.value ? format(new Date(field.value), "PPP") : <span>Pick a date</span>}
+                          {field.value ? (
+                            format(new Date(field.value), "PPP")
+                          ) : (
+                            <span className="text-muted-foreground">Pick a date</span>
+                          )}
                           <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                         </Button>
                       </FormControl>
@@ -157,6 +161,7 @@ export default function EmployeeForm({ defaultValues, onSubmit }: EmployeeFormPr
                         selected={field.value ? new Date(field.value) : undefined}
                         onSelect={(date) => field.onChange(date ? format(date, "yyyy-MM-dd") : "")}
                         initialFocus
+                        className="bg-background border rounded-md"
                       />
                     </PopoverContent>
                   </Popover>
@@ -175,9 +180,13 @@ export default function EmployeeForm({ defaultValues, onSubmit }: EmployeeFormPr
                       <FormControl>
                         <Button
                           variant="outline"
-                          className={`w-full pl-3 text-left font-normal ${!field.value ? "text-muted-foreground" : ""}`}
+                          className="w-full pl-3 text-left font-normal bg-background"
                         >
-                          {field.value ? format(new Date(field.value), "PPP") : <span>Pick a date</span>}
+                          {field.value ? (
+                            format(new Date(field.value), "PPP")
+                          ) : (
+                            <span className="text-muted-foreground">Pick a date</span>
+                          )}
                           <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                         </Button>
                       </FormControl>
@@ -188,10 +197,11 @@ export default function EmployeeForm({ defaultValues, onSubmit }: EmployeeFormPr
                         selected={field.value ? new Date(field.value) : undefined}
                         onSelect={(date) => field.onChange(date ? format(date, "yyyy-MM-dd") : null)}
                         initialFocus
+                        className="bg-background border rounded-md"
                       />
                     </PopoverContent>
                   </Popover>
-                  <FormDescription>Optional for current employees</FormDescription>
+                  <FormDescription className="text-muted-foreground">Optional for current employees</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -199,11 +209,11 @@ export default function EmployeeForm({ defaultValues, onSubmit }: EmployeeFormPr
           </div>
         </div>
 
-        <Separator />
+        <Separator className="bg-border" />
 
         {/* Employment Details Section */}
         <div>
-          <h2 className="text-xl font-semibold mb-4">Employment Details</h2>
+          <h2 className="text-xl font-semibold mb-4 text-foreground">Employment Details</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <FormField
               control={form.control}
@@ -407,12 +417,12 @@ export default function EmployeeForm({ defaultValues, onSubmit }: EmployeeFormPr
           </div>
         </div>
 
-        <Separator />
+        <Separator className="bg-border" />
 
         {/* Termination Information (Conditional) */}
         {form.watch("employee_status") === "Terminated" && (
           <div>
-            <h2 className="text-xl font-semibold mb-4">Termination Information</h2>
+            <h2 className="text-xl font-semibold mb-4 text-foreground">Termination Information</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormField
                 control={form.control}
@@ -459,11 +469,11 @@ export default function EmployeeForm({ defaultValues, onSubmit }: EmployeeFormPr
           </div>
         )}
 
-        <Separator />
+        <Separator className="bg-border" />
 
         {/* Personal Information Section */}
         <div>
-          <h2 className="text-xl font-semibold mb-4">Personal Information</h2>
+          <h2 className="text-xl font-semibold mb-4 text-foreground">Personal Information</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <FormField
               control={form.control}
@@ -476,9 +486,13 @@ export default function EmployeeForm({ defaultValues, onSubmit }: EmployeeFormPr
                       <FormControl>
                         <Button
                           variant="outline"
-                          className={`w-full pl-3 text-left font-normal ${!field.value ? "text-muted-foreground" : ""}`}
+                          className="w-full pl-3 text-left font-normal bg-background"
                         >
-                          {field.value ? format(new Date(field.value), "PPP") : <span>Pick a date</span>}
+                          {field.value ? (
+                            format(new Date(field.value), "PPP")
+                          ) : (
+                            <span className="text-muted-foreground">Pick a date</span>
+                          )}
                           <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                         </Button>
                       </FormControl>
@@ -489,6 +503,7 @@ export default function EmployeeForm({ defaultValues, onSubmit }: EmployeeFormPr
                         selected={field.value ? new Date(field.value) : undefined}
                         onSelect={(date) => field.onChange(date ? format(date, "yyyy-MM-dd") : null)}
                         initialFocus
+                        className="bg-background border rounded-md"
                       />
                     </PopoverContent>
                   </Popover>
@@ -595,11 +610,11 @@ export default function EmployeeForm({ defaultValues, onSubmit }: EmployeeFormPr
           </div>
         </div>
 
-        <Separator />
+        <Separator className="bg-border" />
 
         {/* Performance Section */}
         <div>
-          <h2 className="text-xl font-semibold mb-4">Performance Information</h2>
+          <h2 className="text-xl font-semibold mb-4 text-foreground">Performance Information</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <FormField
               control={form.control}
@@ -652,7 +667,7 @@ export default function EmployeeForm({ defaultValues, onSubmit }: EmployeeFormPr
         </div>
 
         <div className="flex justify-end gap-4">
-          <Button type="button" variant="outline" onClick={() => form.reset()}>
+          <Button type="button" variant="outline" className="bg-background">
             Reset
           </Button>
           <Button type="submit">Submit</Button>
