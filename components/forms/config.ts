@@ -1,0 +1,117 @@
+import { type T_Employee } from "@/data/types"
+import { z } from "zod"
+
+const employeeFormSchema = z.object({
+  emp_id: z.coerce.number().positive({ message: "Employee ID must be a positive number" }),
+  first_name: z.string().min(1, { message: "First name is required" }),
+  last_name: z.string().min(1, { message: "Last name is required" }),
+  start_date: z.string().min(1, { message: "Start date is required" }),
+  exit_date: z.string().nullable(),
+  supervisor: z.string().nullable(),
+  email: z.string().email({ message: "Invalid email address" }),
+  business_unit: z.string().min(1, { message: "Business unit is required" }),
+  employee_status: z.string().min(1, { message: "Employee status is required" }),
+  employee_type: z.string().min(1, { message: "Employee type is required" }),
+  payzone: z.string().min(1, { message: "Payzone is required" }),
+  employee_classification: z.string().min(1, { message: "Employee classification is required" }),
+  termination_type: z.string().nullable(),
+  termination_description: z.string().nullable(),
+  department_type: z.string().nullable(),
+  division: z.string().nullable(),
+  birthdate: z.string().nullable(),
+  state: z.string().nullable(),
+  job_function_desc: z.string().nullable(),
+  gender_code: z.string().nullable(),
+  location_code: z.coerce.number().nullable(),
+  race: z.string().nullable(),
+  marital_status: z.string().nullable(),
+  performance_score: z.string().nullable(),
+  current_employee_rating: z.coerce.number().nullable(),
+  job_title_id: z.coerce.number().nullable(),
+})
+
+
+const employeeStatusOptions = ["Active", "Inactive", "On Leave", "Terminated"]
+const employeeTypeOptions = ["Full-time", "Part-time", "Contract", "Temporary"]
+const payzoneOptions = ["Zone A", "Zone B", "Zone C", "Zone D"]
+const employeeClassificationOptions = ["Exempt", "Non-exempt", "Contractor"]
+const terminationTypeOptions = ["Voluntary", "Involuntary", "Retirement", "Layoff"]
+const genderOptions = ["M", "F", "Non-binary", "Prefer not to say"]
+const maritalStatusOptions = ["Single", "Married", "Divorced", "Widowed"]
+const stateOptions = [
+  "AL",
+  "AK",
+  "AZ",
+  "AR",
+  "CA",
+  "CO",
+  "CT",
+  "DE",
+  "FL",
+  "GA",
+  "HI",
+  "ID",
+  "IL",
+  "IN",
+  "IA",
+  "KS",
+  "KY",
+  "LA",
+  "ME",
+  "MD",
+  "MA",
+  "MI",
+  "MN",
+  "MS",
+  "MO",
+  "MT",
+  "NE",
+  "NV",
+  "NH",
+  "NJ",
+  "NM",
+  "NY",
+  "NC",
+  "ND",
+  "OH",
+  "OK",
+  "OR",
+  "PA",
+  "RI",
+  "SC",
+  "SD",
+  "TN",
+  "TX",
+  "UT",
+  "VT",
+  "VA",
+  "WA",
+  "WV",
+  "WI",
+  "WY",
+]
+const raceOptions = [
+  "White",
+  "Black or African American",
+  "Asian",
+  "American Indian or Alaska Native",
+  "Native Hawaiian or Other Pacific Islander",
+  "Two or More Races",
+  "Hispanic or Latino",
+  "Prefer not to say",
+]
+const performanceScoreOptions = ["Exceeds Expectations", "Meets Expectations", "Needs Improvement", "Unsatisfactory"]
+
+export {
+    employeeFormSchema,
+    performanceScoreOptions,
+    employeeClassificationOptions,
+    employeeStatusOptions,
+    employeeTypeOptions,
+    genderOptions,
+    maritalStatusOptions,
+    payzoneOptions,
+    raceOptions,
+    stateOptions,
+    terminationTypeOptions,
+}
