@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { T_Employee } from "@/data/types"
-
+import { MUTATIONS } from "@/data/clientMutations"
 
 
 export const columns: ColumnDef<T_Employee>[] = [
@@ -193,7 +193,7 @@ export const columns: ColumnDef<T_Employee>[] = [
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => router.push(`employees/${employee.emp_id}`)}>View Employee </DropdownMenuItem>
-                <DropdownMenuItem>View payment details</DropdownMenuItem>
+                <DropdownMenuItem className="text-red-500" onClick={()=> {MUTATIONS.deleteEmployee(employee.emp_id); router.refresh();}}>Delete Employee</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           )

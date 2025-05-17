@@ -1,6 +1,5 @@
 import { type T_Employee as Employee } from "./types"
 import { createClient } from "@/lib/supabase/server";
-
 export const MUTATIONS = {
     addEmployee: async (employee: Employee)=>{
         const supabase = await createClient();
@@ -16,6 +15,5 @@ export const MUTATIONS = {
         
         return data ;
     }
-
 
 }

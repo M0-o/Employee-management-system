@@ -12,12 +12,13 @@ import {
   PieChart,
   Settings2,
   SquareTerminal,
+  LayoutDashboard,
+  Users,
 } from "lucide-react"
 import { UserResponse } from "@supabase/supabase-js"
 import { NavMain } from "@/components/nav/main"
 import { NavProjects } from "@/components/nav/projects"
 import { NavUser } from "@/components/nav/user"
-import { TeamSwitcher } from "@/components/team-switcher"
 import {
   Sidebar,
   SidebarContent,
@@ -26,141 +27,79 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar"
 import {createClient} from "@/lib/supabase/client"
+import { usePathname } from "next/navigation"
 
 
-// This is sample data.
-const data = {
-  user: {
-    name: "shadcn",
-    email: "idk",
-    avatar: "/avatars/shadcn.jpg",
+// This is navigation data structure
+const navigationItems = [
+  {
+    title: "Dashboard",
+    url: "/dashboard",
+    icon: LayoutDashboard,
+    isActive: false,
   },
-  teams: [
-    {
-      name: "Acme Inc",
-      logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
-    },
-  ],
-  navMain: [
-    {
-      title: "Playground",
-      url: "#",
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Models",
-      url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
-    },
-  ],
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
-    },
-  ],
-}
+  {
+    title: "Employees",
+    url: "/employees",
+    icon: Users,
+    isActive: false,
+    items: [
+      {
+        title: "All Employees",
+        url: "/employees",
+      },
+      {
+        title: "Add Employee",
+        url: "/employees/add",
+      },
+    ],
+  },
+  {
+    title: "Settings",
+    url: "/settings",
+    icon: Settings2,
+    isActive: false,
+    items: [
+      {
+        title: "General",
+        url: "/settings/general",
+      },
+      {
+        title: "Team",
+        url: "/settings/team",
+      },
+      {
+        title: "Billing",
+        url: "/settings/billing",
+      },
+    ],
+  },
+];
+
+// Sample projects data - you can replace with actual data
+const projectsData = [
+  {
+    name: "Design Engineering",
+    url: "/projects/design",
+    icon: Frame,
+  },
+  {
+    name: "Sales & Marketing",
+    url: "/projects/sales",
+    icon: PieChart,
+  },
+  {
+    name: "Travel",
+    url: "/projects/travel",
+    icon: Map,
+  },
+];
 
 const SupabaseAuthClient = createClient()
 export default function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 const [user, setUser] = React.useState<UserResponse | null>(null)
+const pathname = usePathname()
+
 React.useEffect(() => {
   const fetchUser = async () => {
     const user = await SupabaseAuthClient.auth.getUser()
@@ -176,28 +115,55 @@ React.useEffect(() => {
     })
 
 }, [])
+
+  // Process navigation items based on current path
+  const processedNavItems = React.useMemo(() => {
+    // First, mark the active item based on current path
+    return navigationItems
+      .map(item => {
+        // Don't include the item if the URL exactly matches the current path
+        if (item.url === pathname) {
+          return null;
+        }
+        
+        // Check if this is the active parent item
+        const isActive = pathname.startsWith(item.url);
+        
+        // Process sub-items if they exist
+        const filteredItems = item.items?.filter(subItem => 
+          subItem.url !== pathname
+        );
+        
+        // Return modified item with active state
+        return {
+          ...item,
+          isActive,
+          items: filteredItems,
+        };
+      })
+      .filter(Boolean) as typeof navigationItems; // Type assertion to fix TypeScript error
+  }, [pathname]);
+
   if (!user) {
     return <div>Loading...</div>
   }
-  console.log(user.data.user)
+  
   const currentUser = user.data.user
     ? {
         name: user.data.user.user_metadata?.full_name || "Default Name",
         email: user.data.user.email || "default@example.com",
         avatar: user.data.user.user_metadata?.avatar_url || "/avatars/default.png",
       }
-    : data.user;
+    : { name: "Default User", email: "default@example.com", avatar: "/avatars/default.png" };
+
   return (
     <Sidebar collapsible="icon" {...props}>
-      <SidebarFooter>
-        <NavUser user={ currentUser } />
-      </SidebarFooter>
       <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+        <NavMain items={processedNavItems} />
+        <NavProjects projects={projectsData} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={ currentUser } />
+        <NavUser user={currentUser} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

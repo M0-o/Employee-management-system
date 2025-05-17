@@ -66,6 +66,7 @@ export default function DataTable<TData, TValue>({
               })}
           </Table.DropdownMenuContent>
         </Table.DropdownMenu>
+        <Table.Button><a href="/employees/add">Add employee</a></Table.Button>
       </div>
     <div className="rounded-md border ">
       <Table.Table>

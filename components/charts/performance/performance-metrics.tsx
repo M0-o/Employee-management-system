@@ -1,7 +1,7 @@
 "use client"
 
 import * as Performance from "./imports"
-
+import { useEffect, useState } from "react" 
 interface PerformanceMetricsProps {
   performanceData: Performance.PerformanceData[] | null;
   departmentPerformance: Performance.DepartmentPerformance[] | null;
@@ -21,6 +21,15 @@ export default function PerformanceMetrics({
   if (!performanceData || !departmentPerformance || averageRating === null || !payzonePerformance) {
     return <div>Loading...</div>
   }
+  const [isAnimating, setIsAnimating] = useState(false);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsAnimating(true)
+    }, 100)
+
+    return () => clearTimeout(timer)
+  }, [])
+  const animationDuration = 2500
 
   return (
     <Performance.Card className={Performance.cn("col-span-full lg:col-span-2", className)}>
@@ -37,46 +46,47 @@ export default function PerformanceMetrics({
           </Performance.TabsList>
           <Performance.TabsContent value="overview" className="space-y-4">
             <div className="grid gap-4 md:grid-cols-3">
-              {performanceData.map((item) => (
-                <div key={item.performance_score} className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">{item.performance_score}</span>
-                    <span className="text-sm font-medium">{item.percentage}%</span>
-                  </div>
-                  <Performance.Progress
-                    value={item.percentage}
-                    className={
-                      item.performance_score === "Exceeds"
-                        ? "bg-muted [&>div]:bg-green-500"
-                        : item.performance_score === "Needs Improvement"
-                          ? "bg-muted [&>div]:bg-red-500"
-                          : "bg-muted [&>div]:bg-blue-500"
-                    }
-                  />
-                  <p className="text-xs text-muted-foreground">{item.number_of_employees} employees</p>
-                </div>
-              ))}
+            {performanceData.map((item) => (
+          <div key={item.performance_score} className="space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium">{item.performance_score}</span>
+              <span className="text-sm font-medium">{item.percentage}%</span>
             </div>
-            <div className="rounded-lg border p-4">
-              <div className="mb-4">
-                <h4 className="text-sm font-medium">Average Performance Rating</h4>
-                <div className="mt-1 flex items-baseline">
-                  <div className="text-3xl font-bold">{averageRating}</div>
-                  <div className="ml-2 text-sm text-muted-foreground">out of 5.0</div>
-                </div>
-              </div>
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm">1.0</span>
-                  <span className="text-sm">5.0</span>
-                </div>
-                <div className="h-2 w-full rounded-full bg-muted">
-                  <div className="h-full rounded-full bg-primary" style={{ width: `${(averageRating / 5) * 100}%` }} />
-                </div>
-                <div className="flex justify-between text-xs text-muted-foreground">
-                  <span>Poor</span>
-                  <span>Average</span>
-                  <span>Excellent</span>
+            <Performance.Progress
+              value={isAnimating ? item.percentage : 0}
+              className={
+                item.performance_score === "Exceeds"
+                  ? `bg-muted [&>div]:bg-green-500 [&>div]:transition-all [&>div]:duration-[${animationDuration}ms] [&>div]:ease-out`
+                  : item.performance_score === "Needs Improvement"
+                    ? `bg-muted [&>div]:bg-red-500 [&>div]:transition-all [&>div]:duration-[${animationDuration}ms] [&>div]:ease-out`
+                    : `bg-muted [&>div]:bg-blue-500 [&>div]:transition-all [&>div]:duration-[${animationDuration}ms] [&>div]:ease-out`
+              }
+            />
+            <p className="text-xs text-muted-foreground">{item.number_of_employees} employees</p>
+          </div>
+        ))}
+      </div>
+      <div className="rounded-lg border p-4">
+        <div className="mb-4">
+          <h4 className="text-sm font-medium">Average Performance Rating</h4>
+          <div className="mt-1 flex items-baseline">
+            <div className="text-3xl font-bold">{averageRating}</div>
+            <div className="ml-2 text-sm text-muted-foreground">out of 5.0</div>
+          </div>
+        </div>
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="text-sm">1.0</span>
+            <span className="text-sm">5.0</span>
+          </div>
+          <Performance.Progress
+            value={isAnimating ? (averageRating / 5) * 100 : 0}
+            className={`bg-muted [&>div]:bg-primary [&>div]:transition-all [&>div]:duration-[${animationDuration}ms] [&>div]:ease-out`}
+          />
+          <div className="flex justify-between text-xs text-muted-foreground">
+            <span>Poor</span>
+            <span>Average</span>
+            <span>Excellent</span>
                 </div>
               </div>
             </div>

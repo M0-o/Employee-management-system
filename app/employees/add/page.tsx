@@ -1,5 +1,3 @@
-
-
 import { type T_Employee } from "@/data/types"
 import  EmployeeForm  from "@/components/forms/create-employee"
 import { Toaster } from "@/components/ui/toaster"
