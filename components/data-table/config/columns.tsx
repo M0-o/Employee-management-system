@@ -189,10 +189,11 @@ export const columns: ColumnDef<T_Employee>[] = [
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                 <DropdownMenuItem
                   onClick={() => navigator.clipboard.writeText(employee.emp_id +'')}>
-                  Copy payment ID
+                  Copy Employee ID
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => router.push(`employees/${employee.emp_id}`)}>View Employee </DropdownMenuItem>
+                <DropdownMenuItem  onClick={()=> router.push(`employees/${employee.emp_id}/update`)}>Update Employee</DropdownMenuItem>
                 <DropdownMenuItem className="text-red-500" onClick={()=> {MUTATIONS.deleteEmployee(employee.emp_id); router.refresh();}}>Delete Employee</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

@@ -1,4 +1,5 @@
 "use client"
+import Link from "next/link"
 import * as Table from "./imports"
 import {useState} from "react"
 
@@ -66,7 +67,7 @@ export default function DataTable<TData, TValue>({
               })}
           </Table.DropdownMenuContent>
         </Table.DropdownMenu>
-        <Table.Button><a href="/employees/add">Add employee</a></Table.Button>
+        <Table.Button><Link href="/employees/add">Add employee</Link></Table.Button>
       </div>
     <div className="rounded-md border ">
       <Table.Table>

@@ -27,12 +27,7 @@ const navigationItems = [
     title: "Employees",
     url: "/employees",
     icon: Users,
-  },
-  {
-    title: "Settings",
-    url: "/settings",
-    icon: Settings2,
-  },
+  }
 ]
 
 type UserProfile = {
@@ -78,16 +73,16 @@ export default function Navbar() {
     : { name: "Guest", email: "guest@example.com", avatar: "/avatars/default.png" }
 
   // Filter out the current path from navigation
-  const navItems = navigationItems.filter(item => item.url !== pathname)
+  const navItems = navigationItems.filter(item => item.url !== pathname && !(pathname == "/"))
 
-  console.log(user?.email);
+  
 
   return (
     <header className="bg-background border-b">
       <div className="container mx-auto px-4">
         <div className="h-16 flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <div className="font-bold text-xl">EMP</div>
+            <Link href="/"><div className="font-bold text-xl">EMP</div></Link>
             <p></p>
             <nav>
               <ul className="flex space-x-4">
