@@ -19,7 +19,7 @@ export const metadata = {
     siteName: "Employee Management System",
     images: [
       {
-        url: "@/static/og-image.png", 
+        url: "static/og-image.png", 
         width: 1200,
         height: 630,
         alt: "Employee Management System Preview",
@@ -32,7 +32,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "Employee Management System",
     description: "An employee management System with modern UI and a plethora of features",
-    images: ["@/static/og-image.png"],
+    images: ["static/og-image.png"],
   },
 };
 
